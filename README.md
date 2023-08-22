@@ -1,4 +1,4 @@
-# LSTV-Exam
+# LSTV-CRUD-TS
 
 This is a web application built using PHP, MySQL, and React Vite for managing employee records.
 
