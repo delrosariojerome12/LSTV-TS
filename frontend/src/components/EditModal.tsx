@@ -8,7 +8,6 @@ import {
 import RadioButton from "./RadioButton";
 import CivilStatusComboBox from "./CivilStatusComboBox";
 import {RootState} from "../store"; // Import your RootState type
-import Employee from "./Employee";
 
 const EditModal = React.memo(() => {
   const {selectedEmployee} = useSelector((state: RootState) => state.employees);
@@ -51,9 +50,9 @@ const EditModal = React.memo(() => {
       console.log("Submit");
       setIsSubmitFine(true);
 
-      const updatedEmployee: Employee = {
+      const updatedEmployee: any = {
         // Define the Employee properties based on your interface
-        id: selectedEmployee.id, // Assuming you have an 'id' property in Employee
+        recid: selectedEmployee?.recid ?? 0,
         fullname,
         gender,
         age,
@@ -64,8 +63,12 @@ const EditModal = React.memo(() => {
         contactnum: contactnumber,
         civilstat: civilstatus,
       };
-
-      dispatch(editEmployee({recid: selectedEmployee.recid, updatedEmployee}));
+      dispatch(
+        editEmployee({
+          recid: selectedEmployee?.recid as any,
+          updatedEmployee,
+        }) as any
+      );
       const timer = setTimeout(() => dispatch(handleRemoveMessage()), 3000);
       return () => clearTimeout(timer);
     } else {
@@ -73,7 +76,7 @@ const EditModal = React.memo(() => {
       setIsSubmitFine(false);
     }
   };
-  const handleOnChange = (value, id) => {
+  const handleOnChange = (value: any, id: any) => {
     switch (id) {
       case "fullname":
         setFullName(value);
@@ -128,7 +131,7 @@ const EditModal = React.memo(() => {
             <input
               id="fullname"
               type="text"
-              value={fullname}
+              value={fullname || ""}
               required
               onChange={(e) => {
                 handleOnChange(e.target.value, e.target.id);
@@ -143,7 +146,7 @@ const EditModal = React.memo(() => {
                 <div className={"text"}>FullName</div>
               </label>
             </div>
-            {!isFullNameValid && fullname.length > 0 && (
+            {!isFullNameValid && fullname && fullname.length > 0 && (
               <p className="error-message">Invalid Input</p>
             )}
           </div>
@@ -151,7 +154,7 @@ const EditModal = React.memo(() => {
             <input
               id="address"
               type="text"
-              value={address}
+              value={address || ""}
               required
               onChange={(e) => {
                 handleOnChange(e.target.value, e.target.id);
@@ -172,7 +175,7 @@ const EditModal = React.memo(() => {
             <input
               id="birthdate"
               type="date"
-              value={birthdate}
+              value={birthdate || ""}
               required
               max={getEighteenYearsAgo()} // Set max to 18 years ago
               onChange={(e) => {
@@ -194,7 +197,7 @@ const EditModal = React.memo(() => {
             <input
               id="age"
               type="number"
-              value={age}
+              value={age || 18}
               required
               min={18}
               max={60}
@@ -215,7 +218,7 @@ const EditModal = React.memo(() => {
             <input
               id="contactnum"
               type="text"
-              value={contactnumber}
+              value={contactnumber || ""}
               required
               onChange={(e) => {
                 handleOnChange(e.target.value, e.target.id);
@@ -231,7 +234,7 @@ const EditModal = React.memo(() => {
                 <div className={"text"}>Contact Number</div>
               </label>
             </div>
-            {!isNumberValid && contactnumber.length > 0 && (
+            {!isNumberValid && contactnumber && contactnumber.length > 0 && (
               <p className="error-message">Invalid Number</p>
             )}
           </div>
@@ -241,7 +244,7 @@ const EditModal = React.memo(() => {
               min={10000}
               id="salary"
               type="number"
-              value={salary}
+              value={salary || ""}
               required
               onChange={(e) => {
                 handleOnChange(e.target.value, e.target.id);
@@ -258,9 +261,9 @@ const EditModal = React.memo(() => {
             </div>
           </div>
 
-          <RadioButton gender={gender} setGender={setGender} />
+          <RadioButton gender={gender || ""} setGender={setGender} />
           <CivilStatusComboBox
-            civilstatus={civilstatus}
+            civilstatus={civilstatus || ""}
             setCivilStatus={setCivilStatus}
           />
 
@@ -269,7 +272,7 @@ const EditModal = React.memo(() => {
             <input
               type="checkbox"
               name="isactive"
-              checked={isactive === "1" ? true : false}
+              checked={isactive ?? false}
               onChange={() => setIsActive(!isactive)}
             />
           </div>
