@@ -1,0 +1,10 @@
+@import "./reset";
+
+.container {
+  height: 100vh;
+}
+
+@import "./components/navbar";
+@import "./pages/Login";
+@import "./pages/Landing";
+@import "./pages/HomeMenu";
