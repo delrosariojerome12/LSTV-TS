@@ -1,6 +1,6 @@
 import React from "react";
 
-const AnimatedBg = () => {
+const AnimatedBg: React.FC = () => {
   return (
     <div className="area">
       <ul className="circles">
