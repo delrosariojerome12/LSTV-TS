@@ -60,7 +60,7 @@ export const getAllEmployees = createAsyncThunk<
   void // Adjust this type based on your actual parameter
 >("/employees/getAllEmployees", async (_, {rejectWithValue}) => {
   try {
-    const url = "http://localhost/LSTV/backend/getAllEmployees.php";
+    const url = "http://localhost/LSTV-TS/backend/getAllEmployees.php";
     const {data: res} = await axios.get(url);
     return res;
   } catch (error) {
@@ -96,7 +96,7 @@ export const deleteEmployee = createAsyncThunk(
   "/employees/deleteEmployee",
   async ({recid}: DeleteEmployeeArgs, {rejectWithValue}) => {
     try {
-      const url = "http://localhost/LSTV/backend/deleteEmployee.php";
+      const url = "http://localhost/LSTV-TS/backend/deleteEmployee.php";
       const {data: res} = await axios.delete(url, {
         data: {recid}, // Pass the data payload containing recid
         headers: {
@@ -115,7 +115,7 @@ export const editEmployee = createAsyncThunk(
   async ({recid, updatedEmployee}: EditEmployeeArgs, {rejectWithValue}) => {
     try {
       console.log(recid, updatedEmployee);
-      const url = "http://localhost/LSTV/backend/editEmployee.php";
+      const url = "http://localhost/LSTV-TS/backend/editEmployee.php";
       const {data: res} = await axios.put(
         url,
         {
